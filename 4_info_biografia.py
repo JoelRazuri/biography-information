@@ -24,6 +24,8 @@ def mostrar_datos(datos_persona):
     print(f"- Fecha de nacimiento: {fecha_nacimiento}")
     print(f"- Dirección: {direccion}")
     print(f"- Metas personales: {metas}")
+    print()
+    input("Ingrese cualquier tecla para salir...")
 
 
 def validar_nombre(nombre):
@@ -31,10 +33,15 @@ def validar_nombre(nombre):
     continuar = True
     i = 0
 
-    while i<len(nombre) and continuar:
-        if not ((nombre[i]>='A' and nombre[i]<='Z') or (nombre[i]>='a' and nombre[i]<='z') or (" ")):
-            continuar = False
-        i+=1
+    if not nombre:
+        input("El campo no puede estar vacio. Ingrese un nombre...")
+        continuar = False
+    else:
+        while i<len(nombre) and continuar:
+            if not ((nombre[i]>='A' and nombre[i]<='Z') or (nombre[i]>='a' and nombre[i]<='z') or (nombre[i]==" ")):
+                continuar = False
+                input("Ingrese un nombre valido. Solo caracteres alfabeticos...")
+            i+=1
 
     return continuar
 
@@ -104,17 +111,21 @@ def cantidad_dias(mes,ano):
 
 def validar_fecha(fecha_nacimiento):
 
-    formato = validar_formato(fecha_nacimiento)
-
-    if formato:
-        booleano = existe_fecha(fecha_nacimiento)
-        if not booleano:
-            print("Ingrese una fecha valida.")
-            input()
-    else:
+    if not fecha_nacimiento:
         booleano = False
-        print("Formato de fecha no valido.")
-        input()
+        input("El campo no puede estar vacio. Ingrese una fecha...")  
+    else:
+        formato = validar_formato(fecha_nacimiento)
+
+        if formato:
+            booleano = existe_fecha(fecha_nacimiento)
+            if not booleano:
+                print("Ingrese una fecha valida.")
+                input()
+        else:
+            booleano = False
+            print("Formato de fecha no valido.")
+            input()
 
     return booleano
 
@@ -129,9 +140,6 @@ def ingresar_datos(datos_persona):
         os.system("cls")
         nombre = input("Ingrese su nombre: ")
         nombre_valido = validar_nombre(nombre)
-        if not nombre_valido:
-            print("Ingrese un nombre valido. Solo caracteres alfabeticos.")
-            input()
     datos_persona.append(nombre)
     
     while not fecha_valido:
